@@ -11,23 +11,28 @@ import * as React from "react";
 import { useContext } from "react";
 import { DataContext } from "../DataContext";
 
-const Cities = [
-  { cityName: "New York", color: "green", min: 0, max: 50 },
-  { cityName: "Mexico City", color: "blue", min: 0, max: 50 },
-  { cityName: "Sao Paulo", color: "red", min: 0, max: 50 }
-]
+
 
 export function GridView({
-  sortColumn,
-  onSetSortColumn
+  selectedCity,
+  onSetCity
 }: {
-  sortColumn?: string;
-  onSetSortColumn?: (column: string) => void;
+  selectedCity?: string;
+  onSetCity?: (column: string) => void;
 }): React.ReactElement | null {
 
   const { data } = useContext(DataContext);
-  console.info(data);
 
+  const newYorkData = data.map((d: any) => Number(d.newYork));
+  const mexicoCityData = data.map((d: any) => Number(d.mexicoCity));
+  const saoPauloData = data.map((d: any) => Number(d.saoPaulo));
+
+
+  const Cities = [
+    { cityName: "New York", color: "green", min: Math.min(...newYorkData), max: Math.max(...newYorkData) },
+    { cityName: "Mexico City", color: "blue", min: Math.min(...mexicoCityData), max: Math.max(...mexicoCityData) },
+    { cityName: "Sao Paulo", color: "red", min: Math.min(...saoPauloData), max: Math.max(...saoPauloData) }
+  ]
   return (
     <Box width={1}>
       <TableContainer>
@@ -35,26 +40,20 @@ export function GridView({
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell
-                onClick={() => onSetSortColumn?.("city")}
-              >
-                City {sortColumn === "city" ? <span>*</span> : ""}
+              <TableCell>
+                City
               </TableCell>
-              <TableCell
-                onClick={() => onSetSortColumn?.("lowerLimit")}
-              >
-                Lower Limit {sortColumn === "lowerLimit" ? <span>*</span> : ""}
+              <TableCell>
+                Lower Limit
               </TableCell>
-              <TableCell
-                onClick={() => onSetSortColumn?.("upperLimit")}
-              >
-                Upper Limit {sortColumn === "upperLimit" ? <span>*</span> : ""}
+              <TableCell>
+                Upper Limit
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {Cities.map((city, i) => (
-              <TableRow key={city.cityName}>
+              <TableRow key={city.cityName} onClick={() => onSetCity?.(city.cityName)} style={selectedCity === city.cityName ? { backgroundColor: "#f0f0f0" } : {}}>
                 <TableCell style={{ backgroundColor: city.color }}></TableCell>
                 <TableCell>{city.cityName}</TableCell>
                 <TableCell>{city.min}</TableCell>
@@ -64,6 +63,6 @@ export function GridView({
           </TableBody>
         </Table>
       </TableContainer>
-    </Box>
+    </Box >
   );
 }

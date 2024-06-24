@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Legend,
     Line,
@@ -10,20 +10,12 @@ import {
 } from 'recharts';
 import { DataContext } from "../DataContext";
 
-const ChartData = [
-    { newYork: 6.225944404, mexicoCity: 21.90052061, saoPaulo: 32.19307301, time: "1/1/2022 0:00" },
-    { newYork: 10.05724972, mexicoCity: 20.50315008, saoPaulo: 33.54266016, time: "1/1/2022 1:00" },
-    { newYork: 9.727012278, mexicoCity: 27.47717586, saoPaulo: 39.88701145, time: "1/1/2022 2:00" },
-    { newYork: 10.61907375, mexicoCity: 22.53790381, saoPaulo: 34.05214063, time: "1/1/2022 3:00" }
-]
-
-export function Chart() {
+export function Chart({ city }: { city: string }) {
     const { data } = useContext(DataContext);
-    console.info(data);
 
     return (
         <ResponsiveContainer width="100%" aspect={3}>
-            <LineChart data={ChartData}>
+            <LineChart data={data}>
                 <XAxis
                     dataKey='time'
                     name='Time'
@@ -35,13 +27,19 @@ export function Chart() {
                 <Line dataKey="newYork"
                     stroke="green"
                     name='New York'
+                    strokeWidth={city === 'New York' ? 3 : 1}
                 />
                 <Line dataKey="mexicoCity"
                     stroke="blue"
-                    name="Mexico City" />
+                    name="Mexico City"
+                    strokeWidth={city === 'Mexico City' ? 3 : 1}
+
+                />
                 <Line dataKey="saoPaulo"
                     stroke="red"
-                    name="Sao Paulo" />
+                    name="Sao Paulo"
+                    strokeWidth={city === 'Sao Paulo' ? 3 : 1}
+                />
             </LineChart>
         </ResponsiveContainer>
     );

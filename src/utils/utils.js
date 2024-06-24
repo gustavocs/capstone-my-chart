@@ -1,8 +1,8 @@
 const columns = {
-    'Date and Time': 'dateTime',
-    'New York': 'newYorkData',
-    'Mexico City': 'mexicoCityData',
-    'Sao Paulo': 'saoPauloData'
+    'Date and Time': 'time',
+    'New York': 'newYork',
+    'Mexico City': 'mexicoCity',
+    'Sao Paulo': 'saoPaulo'
 }
 
 const newline = "\r\n";
