@@ -40,7 +40,8 @@ function App() {
 
   return (
     <>
-      <DataContext.Provider value={{ data, fullData }}>
+      {/* Not sure if Context is needed, maybe passing data using props is fine. */}
+      <DataContext.Provider value={{ data }}>
         <Grid item xs={12}>
           <GridView
             selectedCity={city}
