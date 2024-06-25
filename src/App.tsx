@@ -12,7 +12,7 @@ import { DataContext } from "./DataContext";
 import {
   Button
 } from "@material-ui/core";
-import { fetchData } from './utils/data';
+import { fetchData } from './data/data';
 
 /* Each day has 24 temperatures, so 72 = 3 days. Could be changed according to needed. 
 This approach for pagination is acceptable and will work only if each day has exactly 24 temperatures.

@@ -1,16 +1,9 @@
-const columns = {
-    'Date and Time': 'time',
-    'New York': 'newYork',
-    'Mexico City': 'mexicoCity',
-    'Sao Paulo': 'saoPaulo'
-}
-
 /* That's the newline char used by the file. 
 Could change according to OS and/or different files  */
 const newline = "\r\n";
 
 // Method to convert TSV to JSON
-export const tsvJSON = (tsv) => {
+export const tsvJSON = (tsv, columns) => {
     var lines = tsv.split(newline);
     var result = [];
     var headers = lines[0].split("\t");
