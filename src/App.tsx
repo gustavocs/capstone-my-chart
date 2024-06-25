@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 import {
@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 
 import { GridView } from '../src/components/GridView';
-import { Chart } from './components/Chart'
+import { Chart } from './components/Chart';
 import { DataContext } from "./DataContext";
 
 import {
@@ -14,7 +14,10 @@ import {
 } from "@material-ui/core";
 import { getData } from './utils/data';
 
-const PAGE_SIZE = 72; // Each day has 24 temperatures, so 72 = 3 days. Could be changed according to needed
+/* Each day has 24 temperatures, so 72 = 3 days. Could be changed according to needed. 
+This is acceptable and will work only if each day has exactly 24 temperatures.
+Another approach could be setting an initial day and filtering by a date range */
+const PAGE_SIZE = 72;
 
 function App() {
   const [city, setCity] = useState("");

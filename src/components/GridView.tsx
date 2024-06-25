@@ -27,7 +27,6 @@ export function GridView({
   const mexicoCityData = data.map((d: any) => Number(d.mexicoCity));
   const saoPauloData = data.map((d: any) => Number(d.saoPaulo));
 
-
   const Cities = [
     { cityName: "New York", color: "green", min: Math.min(...newYorkData), max: Math.max(...newYorkData) },
     { cityName: "Mexico City", color: "blue", min: Math.min(...mexicoCityData), max: Math.max(...mexicoCityData) },
@@ -53,7 +52,7 @@ export function GridView({
           </TableHead>
           <TableBody>
             {Cities.map((city, i) => (
-              <TableRow key={city.cityName} onClick={() => onSetCity?.(city.cityName)} style={selectedCity === city.cityName ? { backgroundColor: "#f0f0f0" } : {}}>
+              <TableRow key={city.cityName} onClick={() => onSetCity?.(selectedCity === city.cityName ? "" : city.cityName)} style={selectedCity === city.cityName ? { backgroundColor: "#f0f0f0" } : {}}>
                 <TableCell style={{ backgroundColor: city.color }}></TableCell>
                 <TableCell>{city.cityName}</TableCell>
                 <TableCell>{city.min}</TableCell>
