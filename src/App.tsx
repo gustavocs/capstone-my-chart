@@ -12,11 +12,12 @@ import { DataContext } from "./DataContext";
 import {
   Button
 } from "@material-ui/core";
-import { getData } from './utils/data';
+import { fetchData } from './utils/data';
 
 /* Each day has 24 temperatures, so 72 = 3 days. Could be changed according to needed. 
-This is acceptable and will work only if each day has exactly 24 temperatures.
-Another approach could be setting an initial day and filtering by a date range */
+This approach for pagination is acceptable and will work only if each day has exactly 24 temperatures.
+Another approach could be setting an initial day and filtering by a date range,
+but personally I prefer to make it simple if possible */
 const PAGE_SIZE = 72;
 
 function App() {
@@ -25,17 +26,12 @@ function App() {
   const [data, setData] = useState(Array<any>);
   const [page, setPage] = useState(0);
 
-  async function fetchData() {
-    try {
-      const result = await getData();
-      setFullData(result as Array<any>);
-    } catch (error) {
-      console.error('Error fetching data: ', error);
-    }
+  async function getData() {
+    setFullData(await fetchData() as Array<any>);
   }
 
   useEffect(() => {
-    fetchData();
+    getData();
   }, [])
 
   useEffect(() => {

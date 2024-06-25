@@ -10,6 +10,10 @@ import {
 } from 'recharts';
 import { DataContext } from "../DataContext";
 
+const strokeWidth = (city: string, current: string): number => {
+    return (city === current) ? 3 : 1;
+}
+
 export function Chart({ city }: { city: string }) {
     const { data } = useContext(DataContext);
 
@@ -27,18 +31,18 @@ export function Chart({ city }: { city: string }) {
                 <Line dataKey="newYork"
                     stroke="green"
                     name='New York'
-                    strokeWidth={city === 'New York' ? 3 : 1}
+                    strokeWidth={strokeWidth(city, 'New York')}
                 />
                 <Line dataKey="mexicoCity"
                     stroke="blue"
                     name="Mexico City"
-                    strokeWidth={city === 'Mexico City' ? 3 : 1}
+                    strokeWidth={strokeWidth(city, 'Mexico City')}
 
                 />
                 <Line dataKey="saoPaulo"
                     stroke="red"
                     name="Sao Paulo"
-                    strokeWidth={city === 'Sao Paulo' ? 3 : 1}
+                    strokeWidth={strokeWidth(city, 'Sao Paulo')}
                 />
             </LineChart>
         </ResponsiveContainer>
