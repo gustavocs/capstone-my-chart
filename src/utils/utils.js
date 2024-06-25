@@ -1,9 +1,5 @@
-/* That's the newline char used by the file. 
-Could change according to OS and/or different files  */
-const newline = "\r\n";
-
 // Method to convert TSV to JSON
-export const tsvJSON = (tsv, columns) => {
+export const tsvJSON = (tsv, columns, newline) => {
     var lines = tsv.split(newline);
     var result = [];
     var headers = lines[0].split("\t");
