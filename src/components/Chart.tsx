@@ -37,7 +37,6 @@ export function Chart({ city }: { city: string }) {
                     stroke="blue"
                     name="Mexico City"
                     strokeWidth={strokeWidth(city, 'Mexico City')}
-
                 />
                 <Line dataKey="saoPaulo"
                     stroke="red"
