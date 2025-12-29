@@ -8,6 +8,7 @@ import {
     YAxis
 } from 'recharts';
 import { TemperatureData } from '../types/temperature';
+import { CITY_CONFIGS } from '../types/cityConfig';
 
 const strokeWidth = (city: string, current: string): number => {
     return (city === current) ? 3 : 1;
@@ -26,21 +27,15 @@ export function Chart({ city, data }: { city: string; data: TemperatureData[] })
                 <YAxis></YAxis>
                 <Legend />
                 <Tooltip />
-                <Line dataKey="newYork"
-                    stroke="green"
-                    name='New York'
-                    strokeWidth={strokeWidth(city, 'New York')}
-                />
-                <Line dataKey="mexicoCity"
-                    stroke="blue"
-                    name="Mexico City"
-                    strokeWidth={strokeWidth(city, 'Mexico City')}
-                />
-                <Line dataKey="saoPaulo"
-                    stroke="red"
-                    name="Sao Paulo"
-                    strokeWidth={strokeWidth(city, 'Sao Paulo')}
-                />
+                {CITY_CONFIGS.map(config => (
+                    <Line
+                        key={config.name}
+                        dataKey={config.dataKey}
+                        stroke={config.color}
+                        name={config.name}
+                        strokeWidth={strokeWidth(city, config.name)}
+                    />
+                ))}
             </LineChart>
         </ResponsiveContainer>
     );
