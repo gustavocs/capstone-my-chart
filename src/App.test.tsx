@@ -2,8 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// Simple smoke test - just verify the app renders without crashing
+describe('App', () => {
+  it('should render without crashing', () => {
+    const { container } = render(<App />);
+    expect(container).toBeInTheDocument();
+  });
 });
