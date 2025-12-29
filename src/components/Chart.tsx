@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import {
     Legend,
     Line,
@@ -8,14 +7,13 @@ import {
     XAxis,
     YAxis
 } from 'recharts';
-import { DataContext } from "../DataContext";
+import { TemperatureData } from '../types/temperature';
 
 const strokeWidth = (city: string, current: string): number => {
     return (city === current) ? 3 : 1;
 }
 
-export function Chart({ city }: { city: string }) {
-    const { data } = useContext(DataContext);
+export function Chart({ city, data }: { city: string; data: TemperatureData[] }) {
 
     return (
         <ResponsiveContainer width="100%" aspect={3}>

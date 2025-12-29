@@ -1,76 +1,87 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 
 import {
-  Grid
+  Grid,
+  CircularProgress,
+  Typography
 } from "@material-ui/core";
 
 import { GridView } from '../src/components/GridView';
 import { Chart } from './components/Chart';
-import { DataContext } from "./DataContext";
 
 import {
   Button
 } from "@material-ui/core";
 import { fetchData } from './data/data';
+import { useDatePagination } from './hooks/useDatePagination';
 
-/* Each day has 24 temperatures, so 72 = 3 days. Could be changed according to needed. 
-This approach for pagination is acceptable and will work only if each day has exactly 24 temperatures.
-Another approach could be setting an initial day and filtering by a date range,
-but personally I prefer to make it simple if possible */
-const PAGE_SIZE = 72;
+// Number of days to show per page
+const DAYS_PER_PAGE = 3;
 
 function App() {
   const [city, setCity] = useState("");
-  const [fullData, setFullData] = useState(Array<any>);
-  const [data, setData] = useState(Array<any>);
-  const [page, setPage] = useState(0);
 
-  async function getData() {
-    setFullData(await fetchData() as Array<any>);
+  // Use custom hook for date-based pagination with integrated data fetching
+  const {
+    data,
+    isLoading,
+    error,
+    handleNavigateBack,
+    handleNavigateForward,
+    isBackDisabled,
+    isForwardDisabled,
+  } = useDatePagination({ fetchDataFn: fetchData, daysPerPage: DAYS_PER_PAGE });
+
+  if (isLoading) {
+    return (
+      <Grid container justify="center" alignItems="center" style={{ minHeight: '100vh' }}>
+        <CircularProgress />
+      </Grid>
+    );
   }
 
-  useEffect(() => {
-    getData();
-  }, [])
-
-  useEffect(() => {
-    setData(fullData.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE))
-  }, [fullData, page])
+  if (error) {
+    return (
+      <Grid container justify="center" alignItems="center" style={{ minHeight: '100vh' }}>
+        <Typography color="error">Error loading data: {error.message}</Typography>
+      </Grid>
+    );
+  }
 
   return (
     <>
-      {/* Not sure if Context is needed, maybe passing data using props is fine. */}
-      <DataContext.Provider value={{ data }}>
-        <Grid item xs={12}>
-          <GridView
-            selectedCity={city}
-            onSetCity={setCity}
-          />
+      <Grid item xs={12}>
+        <GridView
+          selectedCity={city}
+          onSetCity={setCity}
+          data={data}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Chart city={city} data={data} />
+      </Grid>
+      <Grid justify="space-between" container spacing={1}>
+        <Grid item>
+          <Button
+            onClick={handleNavigateBack}
+            variant="contained"
+            disabled={isBackDisabled}
+          >
+            Back 3 Days
+          </Button>
         </Grid>
-        <Grid item xs={12}>
-          <Chart city={city} />
+        <Grid item>
+          <Button
+            onClick={handleNavigateForward}
+            variant="contained"
+            disabled={isForwardDisabled}
+          >
+            Forward 3 Days
+          </Button>
         </Grid>
-        <Grid justify="space-between" container spacing={1}>
-          <Grid item>
-            <Button
-              onClick={() => setPage(page - 1)}
-              variant="contained"
-            >
-              Back 3 Days
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              onClick={() => setPage(page + 1)}
-              variant="contained"
-            >
-              Forward 3 Days
-            </Button>
-          </Grid>
 
-        </Grid>
-      </DataContext.Provider>
+      </Grid>
     </>
   );
 }

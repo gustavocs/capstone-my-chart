@@ -8,20 +8,18 @@ import {
   TableRow
 } from "@material-ui/core";
 import * as React from "react";
-import { useContext } from "react";
-import { DataContext } from "../DataContext";
-
-
+import { TemperatureData } from "../types/temperature";
 
 export function GridView({
   selectedCity,
-  onSetCity
+  onSetCity,
+  data
 }: {
   selectedCity?: string;
   onSetCity?: (column: string) => void;
+  data: TemperatureData[];
 }): React.ReactElement | null {
 
-  const { data } = useContext(DataContext);
 
   const newYorkData = data.map((d: any) => Number(d.newYork));
   const mexicoCityData = data.map((d: any) => Number(d.mexicoCity));
